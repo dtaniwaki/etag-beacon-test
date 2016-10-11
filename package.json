@@ -1,6 +1,6 @@
 {
-  "name": "etag-beacon",
-  "version": "0.0.0",
+  "name": "etag-beacon-test",
+  "version": "0.0.1",
   "description": "Beacon with etag",
   "main": "index.js",
   "scripts": {},
