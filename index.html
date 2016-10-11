@@ -1,0 +1,20 @@
+<html>
+<body>
+
+<script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+<script>
+
+$.getJSON({
+  url: "http://localhost:3000/etag",
+  success: (data) => {
+    $.getJSON({
+      url: 'http://localhost:3000/conn/' + data.uuid + '?test=' + Math.floor(Math.random() * 1000000),
+    });
+  },
+});
+
+</script>
+
+</body>
+</html>
