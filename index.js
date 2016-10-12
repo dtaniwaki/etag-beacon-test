@@ -20,7 +20,11 @@ app.use(async (ctx, next) => {
 // CORS handler
 app.use(async (ctx, next) => {
   ctx.set('Access-Control-Allow-Origin', '*');
-  await next();
+  if (ctx.method === 'OPTIONS') {
+    ctx.body = '';
+  } else {
+    await next();
+  }
 });
 
 // 
