@@ -8,6 +8,7 @@
 $.getJSON({
   url: "http://localhost:3000/etag",
   success: (data) => {
+    $('#uuid').text(data.uuid);
     $.getJSON({
       url: 'http://localhost:3000/conn/' + data.uuid + '?test=' + Math.floor(Math.random() * 1000000),
     });
@@ -15,6 +16,9 @@ $.getJSON({
 });
 
 </script>
+
+<h2>UUID</h2>
+<p id="uuid"></p>
 
 </body>
 </html>
