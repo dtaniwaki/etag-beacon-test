@@ -6,11 +6,11 @@
 <script>
 
 $.getJSON({
-  url: "http://localhost:3000/etag",
+  url: "http://localhost:3000/uuid",
   success: (data) => {
     $('#uuid').text(data.uuid);
     $.getJSON({
-      url: 'http://localhost:3000/conn/' + data.uuid + '?test=' + Math.floor(Math.random() * 1000000),
+      url: 'http://localhost:3000/conn?uuid=' + data.uuid + '&test=' + Math.floor(Math.random() * 1000000),
     });
   },
 });

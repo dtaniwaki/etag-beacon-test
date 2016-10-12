@@ -2,8 +2,8 @@ const Koa = require('koa');
 const crypto = require('crypto');
 
 const app = new Koa();
-const connRoute = new RegExp('^/conn/[0-9a-f]+$');
-const etagRoute = new RegExp('^/etag$');
+const connRoute = new RegExp('^/conn$');
+const uuidRoute = new RegExp('^/uuid$');
 
 // Error handler
 app.use(async (ctx, next) => {
@@ -26,8 +26,8 @@ app.use(async (ctx, next) => {
 // 
 app.use(async (ctx, next) => {
   if (connRoute.test(ctx.request.path)) {
-    const uuid = ctx.request.path.split('/')[2];
-    console.log(`Get params ${ctx.request.querystring} of ${uuid}`);
+    const uuid = ctx.request.query.uuid;
+    console.log(`Get ${ctx.request.query.test} from ${uuid}`);
     ctx.body = 'Great!';
   } else {
     await next();
@@ -35,7 +35,7 @@ app.use(async (ctx, next) => {
 });
 
 app.use(async (ctx, next) => {
-  if (etagRoute.test(ctx.request.path)) {
+  if (uuidRoute.test(ctx.request.path)) {
     const now = new Date();
     let uuid = ctx.headers['if-none-match'];
     let generateUUID = !uuid;
