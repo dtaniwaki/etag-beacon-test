@@ -27,7 +27,7 @@ app.use(async (ctx, next) => {
   }
 });
 
-// 
+// Parameter receiver
 app.use(async (ctx, next) => {
   if (connRoute.test(ctx.request.path)) {
     const uuid = ctx.request.query.uuid;
@@ -38,6 +38,7 @@ app.use(async (ctx, next) => {
   }
 });
 
+// UUID generator
 app.use(async (ctx, next) => {
   if (uuidRoute.test(ctx.request.path)) {
     const now = new Date();
@@ -66,6 +67,7 @@ app.use(async (ctx, next) => {
   }
 });
 
+// Fallback
 app.use(async ctx => {
   ctx.body = 'OK';
 });
