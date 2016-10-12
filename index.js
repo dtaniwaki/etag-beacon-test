@@ -36,10 +36,25 @@ app.use(async (ctx, next) => {
 
 app.use(async (ctx, next) => {
   if (etagRoute.test(ctx.request.path)) {
+    const now = new Date();
     let uuid = ctx.headers['if-none-match'];
-    if (!uuid) {
-      uuid = crypto.randomBytes(64).toString('hex');
+    let generateUUID = !uuid;
+    const lifetime = 10; // 1 minute lifetime
+    const sinceHeader = ctx.headers['if-modified-since'];
+    let since = sinceHeader ? new Date(Date.parse(sinceHeader)) : now;
+    let diff = lifetime - Math.floor((now.getTime() - since.getTime()) / 1000);
+    if (diff < 0) {
+      generateUUID = true;
+      since = now;
+      diff = lifetime;
     }
+    if (generateUUID) {
+      uuid = crypto.randomBytes(64).toString('hex');
+    } else {
+      ctx.status = 304;
+    }
+    ctx.set('Last-Modified', since.toGMTString());
+    ctx.set('Cache-Control', `max-age=${diff}`);
     ctx.set('ETag', uuid);
     ctx.body = { uuid, other: 'if available' };
   } else {
